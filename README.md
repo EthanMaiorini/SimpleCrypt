@@ -9,7 +9,7 @@ Create a few ciphers. Use String inside of your classes.
   * crypt("Gb trg gb gur bgure fvqr!") should produce "To get to the other side!"
 * Make a constructor that takes two arguments to set the cipher correspondence. `ROT13 superSecure = new ROT13("a","m");`
   * this defines the SHIFT of the two Character arrays.
-* Caesar - make a subclass of ROT13 that implements the famous caesar cipher.
+* Caesar - make a subclass of ROT13 that implements the famous Caesar cipher.
 * Create you own cipher, using a different set of 
 
 ### Part 2

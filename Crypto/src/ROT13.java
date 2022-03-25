@@ -20,14 +20,14 @@ public class ROT13  {
         int diff;
         for(int x =0;x<text.length();x++) {
             if ((str[x] <= 90) && (str[x] >= 65)) {
-                if ((str[x] < (90 - cryptChange)) && (str[x] >= 65)) {
+                if ((str[x] <= (90 - cryptChange)) && (str[x] >= 65)) {
                     diff = str[x] + cryptChange;
                     str[x] = ((char) diff);
                 } else if ((str[x] <= 90) && (str[x] < 91)) {
                     str[x] = (char) (64 + (cryptChange - (90 - str[x])));
                 }
             } else if ((str[x] <= 122) && (str[x] >= 97)) {
-                if ((str[x] < 122 - cryptChange) && (str[x] >= 97)) {
+                if ((str[x] <= 122 - cryptChange) && (str[x] >= 97)) {
                     diff = str[x] + cryptChange;
                     str[x] = (char) diff;
                 } else if ((str[x] <= 122)){
