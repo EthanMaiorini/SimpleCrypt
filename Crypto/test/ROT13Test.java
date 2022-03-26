@@ -98,10 +98,12 @@ public class ROT13Test {
     @Test
     public void testEncyptFile() throws IOException {
         ROT13 cipher = new ROT13('a', 'n');
-        cipher.encryptFile();
-        cipher.decryptFile();
         Path path1 = Paths.get("/Users/ethan/dev/SimpleCrypt/sonnet18.txt");
         Path path2 = Paths.get("/Users/ethan/dev/SimpleCrypt/sonnet182.txt");
+        Path path3 = Paths.get("/Users/ethan/dev/SimpleCrypt/sonnet18.enc");
+        cipher.encryptFile(path3,path1);
+        cipher.decryptFile(path2,path3);
+
         assertTrue(cipher.compareFiles(path1,path2));
     }
 }

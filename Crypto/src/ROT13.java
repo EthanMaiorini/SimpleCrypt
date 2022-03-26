@@ -1,6 +1,7 @@
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import static java.lang.Character.isLowerCase;
@@ -60,52 +61,32 @@ public class ROT13 {
         return result;
     }
 
-    public static void encryptFile() throws IOException {
+    public static void encryptFile(Path path1, Path path2) throws IOException {
         String enc = "";
         File mySonnet,file;
-        Scanner scanner = null;
-        FileWriter myWriter = null;
-        BufferedWriter buffWriter = null;
         try {
-            mySonnet = new File("/Users/ethan/dev/SimpleCrypt/sonnet18.enc");
+            mySonnet = new File(String.valueOf(path1));
             if (mySonnet.createNewFile()) {
                 System.out.println("File created: " + mySonnet.getName());
             } else {
                 System.out.println("File already exists.");
             }
-            file = new File("/Users/ethan/dev/SimpleCrypt/sonnet18.txt");
-            scanner = new Scanner(file);
-            myWriter = new FileWriter("/Users/ethan/dev/SimpleCrypt/sonnet18.enc");
-            buffWriter = new BufferedWriter(myWriter);
-            while (scanner.hasNextLine()) {
-                enc = crypt(scanner.nextLine());
-                buffWriter.write(enc + "\n");
-            }
+            decryptFile(path1,path2);
         } catch (IOException e) {
             System.out.println("An error occurred.");
-        }finally {
-            buffWriter.close();
-            myWriter.close();
-            scanner.close();
         }
     }
 
-    public static void decryptFile() throws IOException {
+    public static void decryptFile(Path path1,Path path2) throws IOException {
         String enc = "";
-        File mySonnet,file;
+        File file;
         Scanner scanner = null;
         FileWriter myWriter = null;
         BufferedWriter buffWriter = null;
         try {
-            mySonnet = new File("/Users/ethan/dev/SimpleCrypt/sonnet182.txt");
-            if (mySonnet.createNewFile()) {
-                System.out.println("File created: " + mySonnet.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
-            file = new File("/Users/ethan/dev/SimpleCrypt/sonnet18.enc");
+            file = new File(String.valueOf(path2));
             scanner = new Scanner(file);
-            myWriter = new FileWriter("/Users/ethan/dev/SimpleCrypt/sonnet182.txt");
+            myWriter = new FileWriter(String.valueOf(path1));
             buffWriter = new BufferedWriter(myWriter);
             while (scanner.hasNextLine()) {
                 enc = crypt(scanner.nextLine());
