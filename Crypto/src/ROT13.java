@@ -61,9 +61,8 @@ public class ROT13 {
         return result;
     }
 
-    public static void encryptFile(Path path1, Path path2) throws IOException {
-        String enc = "";
-        File mySonnet,file;
+    public static Path createFile(Path path1) {
+        File mySonnet = null;
         try {
             mySonnet = new File(String.valueOf(path1));
             if (mySonnet.createNewFile()) {
@@ -71,10 +70,10 @@ public class ROT13 {
             } else {
                 System.out.println("File already exists.");
             }
-            decryptFile(path1,path2);
         } catch (IOException e) {
             System.out.println("An error occurred.");
         }
+        return mySonnet.toPath();
     }
 
     public static void decryptFile(Path path1,Path path2) throws IOException {
@@ -107,7 +106,7 @@ public class ROT13 {
         String line1 ="",line2 ="";
         while ((line1 = firstFile.readLine()) != null) {
             line2 = secondFile.readLine();
-            if((line2 == null) || (!line1.equals(line2)))
+            if((line2 == null) || (!line1.equals(crypt(line2))))
                 return false;
         }
         if(secondFile.readLine() == null) {
