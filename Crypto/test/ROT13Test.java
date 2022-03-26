@@ -2,6 +2,9 @@ import org.junit.Test;
 
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.*;
 import static org.testng.AssertJUnit.assertTrue;
@@ -93,8 +96,12 @@ public class ROT13Test {
     }
 
     @Test
-    public void testEncyptFile() throws FileNotFoundException {
+    public void testEncyptFile() throws IOException {
         ROT13 cipher = new ROT13('a', 'n');
         cipher.encryptFile();
+        cipher.decryptFile();
+        Path path1 = Paths.get("/Users/ethan/dev/SimpleCrypt/sonnet18.txt");
+        Path path2 = Paths.get("/Users/ethan/dev/SimpleCrypt/sonnet182.txt");
+        assertTrue(cipher.compareFiles(path1,path2));
     }
 }

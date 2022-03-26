@@ -1,19 +1,18 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
 import static java.lang.Character.toLowerCase;
 
-public class ROT13  {
+public class ROT13 {
     static int cryptChange = 0;
 
     ROT13(Character cs, Character cf) {
 
-        cryptChange = (int)(cf)-(int)(cs);
+        cryptChange = (int) (cf) - (int) (cs);
 
     }
 
@@ -24,7 +23,7 @@ public class ROT13  {
     public static String crypt(String text) throws UnsupportedOperationException {
         char[] str = text.toCharArray();
         int diff;
-        for(int x =0;x<text.length();x++) {
+        for (int x = 0; x < text.length(); x++) {
             if ((str[x] <= 90) && (str[x] >= 65)) {
                 if ((str[x] <= (90 - cryptChange)) && (str[x] >= 65)) {
                     diff = str[x] + cryptChange;
@@ -36,7 +35,7 @@ public class ROT13  {
                 if ((str[x] <= 122 - cryptChange) && (str[x] >= 97)) {
                     diff = str[x] + cryptChange;
                     str[x] = (char) diff;
-                } else if ((str[x] <= 122)){
+                } else if ((str[x] <= 122)) {
                     str[x] = (char) (96 + (cryptChange - (122 - str[x])));
                 }
             } else str[x] = (str[x]);
@@ -55,38 +54,83 @@ public class ROT13  {
     }
 
     public static String rotate(String s, Character c) {
-    int start = s.indexOf(c);
-    String result = s.substring(start);
-    result = result.concat(s.substring(0,start));
-    return result;
+        int start = s.indexOf(c);
+        String result = s.substring(start);
+        result = result.concat(s.substring(0, start));
+        return result;
     }
 
-    public static void encryptFile() throws FileNotFoundException {
+    public static void encryptFile() throws IOException {
         String enc = "";
+        File mySonnet,file;
+        Scanner scanner = null;
+        FileWriter myWriter = null;
+        BufferedWriter buffWriter = null;
         try {
-            File mySonnet = new File("/Users/ethan/dev/SimpleCrypt/sonnet18.enc");
+            mySonnet = new File("/Users/ethan/dev/SimpleCrypt/sonnet18.enc");
             if (mySonnet.createNewFile()) {
                 System.out.println("File created: " + mySonnet.getName());
             } else {
                 System.out.println("File already exists.");
             }
+            file = new File("/Users/ethan/dev/SimpleCrypt/sonnet18.txt");
+            scanner = new Scanner(file);
+            myWriter = new FileWriter("/Users/ethan/dev/SimpleCrypt/sonnet18.enc");
+            buffWriter = new BufferedWriter(myWriter);
+            while (scanner.hasNextLine()) {
+                enc = crypt(scanner.nextLine());
+                buffWriter.write(enc + "\n");
+            }
         } catch (IOException e) {
             System.out.println("An error occurred.");
-            e.printStackTrace();
+        }finally {
+            buffWriter.close();
+            myWriter.close();
+            scanner.close();
         }
-        File file = new File("/Users/ethan/dev/SimpleCrypt/sonnet18.txt");
-        Scanner sc = new Scanner(file);
-        while(sc.hasNextLine()) {
-            enc = crypt(sc.next());
-            try {
-                FileWriter myWriter = new FileWriter("/Users/ethan/dev/SimpleCrypt/sonnet18.enc");
-                myWriter.write(enc);
+    }
 
-            } catch (IOException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
+    public static void decryptFile() throws IOException {
+        String enc = "";
+        File mySonnet,file;
+        Scanner scanner = null;
+        FileWriter myWriter = null;
+        BufferedWriter buffWriter = null;
+        try {
+            mySonnet = new File("/Users/ethan/dev/SimpleCrypt/sonnet182.txt");
+            if (mySonnet.createNewFile()) {
+                System.out.println("File created: " + mySonnet.getName());
+            } else {
+                System.out.println("File already exists.");
             }
-           // myWriter.close();
+            file = new File("/Users/ethan/dev/SimpleCrypt/sonnet18.enc");
+            scanner = new Scanner(file);
+            myWriter = new FileWriter("/Users/ethan/dev/SimpleCrypt/sonnet182.txt");
+            buffWriter = new BufferedWriter(myWriter);
+            while (scanner.hasNextLine()) {
+                enc = crypt(scanner.nextLine());
+                buffWriter.write(enc + "\n");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+        }finally {
+            buffWriter.close();
+            myWriter.close();
+            scanner.close();
         }
+    }
+
+    public static boolean compareFiles(Path file1, Path file2) throws IOException {
+        BufferedReader firstFile = Files.newBufferedReader(file1);
+        BufferedReader secondFile = Files.newBufferedReader(file2);
+        String line1 ="",line2 ="";
+        while ((line1 = firstFile.readLine()) != null) {
+            line2 = secondFile.readLine();
+            if((line2 == null) || (!line1.equals(line2)))
+                return false;
+        }
+        if(secondFile.readLine() == null) {
+            return true;
+        }else return false;
     }
 }
