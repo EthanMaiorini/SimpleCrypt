@@ -1,9 +1,15 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
 import static java.lang.Character.toLowerCase;
 
 public class ROT13  {
-    int cryptChange = 0;
+    static int cryptChange = 0;
 
     ROT13(Character cs, Character cf) {
 
@@ -15,7 +21,7 @@ public class ROT13  {
 
     }
 
-    public String crypt(String text) throws UnsupportedOperationException {
+    public static String crypt(String text) throws UnsupportedOperationException {
         char[] str = text.toCharArray();
         int diff;
         for(int x =0;x<text.length();x++) {
@@ -55,5 +61,32 @@ public class ROT13  {
     return result;
     }
 
+    public static void encryptFile() throws FileNotFoundException {
+        String enc = "";
+        try {
+            File mySonnet = new File("/Users/ethan/dev/SimpleCrypt/sonnet18.enc");
+            if (mySonnet.createNewFile()) {
+                System.out.println("File created: " + mySonnet.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        File file = new File("/Users/ethan/dev/SimpleCrypt/sonnet18.txt");
+        Scanner sc = new Scanner(file);
+        while(sc.hasNextLine()) {
+            enc = crypt(sc.next());
+            try {
+                FileWriter myWriter = new FileWriter("/Users/ethan/dev/SimpleCrypt/sonnet18.enc");
+                myWriter.write(enc);
 
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+           // myWriter.close();
+        }
+    }
 }

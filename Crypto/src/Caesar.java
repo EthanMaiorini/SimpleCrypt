@@ -5,7 +5,7 @@ public class Caesar extends ROT13{
         int cryptChange = super.cryptChange;
     }
 
-    public String crypt(String string){
+    public String crypt2(String string){
        return super.crypt(string);
     }
 

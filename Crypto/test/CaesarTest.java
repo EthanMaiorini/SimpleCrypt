@@ -12,7 +12,7 @@ public class CaesarTest extends TestCase {
         String result = "Zkb glg wkh fklfnhq furvv wkh urdg?";
 
         // When
-        String actual = cipher.crypt(Q1);
+        String actual = cipher.crypt2(Q1);
         System.out.println(actual);
         // Then
         assertTrue(actual.equals(result));

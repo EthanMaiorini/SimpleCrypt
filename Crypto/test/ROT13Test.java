@@ -1,6 +1,8 @@
 import org.junit.Test;
 
 
+import java.io.FileNotFoundException;
+
 import static org.junit.Assert.*;
 import static org.testng.AssertJUnit.assertTrue;
 
@@ -90,4 +92,9 @@ public class ROT13Test {
         assertTrue(actual.equals(Q1));
     }
 
+    @Test
+    public void testEncyptFile() throws FileNotFoundException {
+        ROT13 cipher = new ROT13('a', 'n');
+        cipher.encryptFile();
+    }
 }
